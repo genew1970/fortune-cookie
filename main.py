@@ -22,6 +22,11 @@ def getRandomNumbers():
     lucky_num = random.randint(1,100)
     return lucky_num
 
+def getColor():
+    colors = ["red", "blue", "green", "purple", "yellow"]
+    rand_color = random.randint(0, len(colors) - 1)
+    return colors[rand_color]
+
 def getRandomFortune():
 
     # list of possible fortunes
@@ -37,7 +42,7 @@ def getRandomFortune():
         "Release your anger.",
         "The force is with you...but you are not a Jedi yet.",
         "You are beaten.  It is useless to resist.",
-        "You are having a bad feeling about a choice.",
+        "You are having a bad feeling about this.",
         "I suggest a new strategy...let the Wookie win."
     ]
 
@@ -48,17 +53,19 @@ def getRandomFortune():
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        header = "<center><h1 style='font-size:54px; color:red; padding-top:350px;'>Star Wars Fortune Cookie</h1></center>"
+        body = "<body background='http://paulbourke.net/miscellaneous/starfield/8192x4096.png'></body>"
+        logo = "<center><image src='http://www.pngmart.com/files/3/Star-Wars-Logo-PNG-File.png' style='height:300; width: 600; margin-top: 50px;'></center>"
+        header = "<center><h1 style='font-size:54px; color:" + getColor() + "; text-shadow: " + getColor() + " 3px 3px 5px; padding-top:50px;'>Fortune Cookie</h1></center>"
 
         fortune = getRandomFortune()
-        fortune_sentence = "Your forune: " + fortune
-        fortune_paragraph = "<center><p style='font-size:36px;'>" + fortune_sentence + "<p></center>"
+        fortune_sentence = "<p style='color:red; font-size:36px;'>Your fortune: <fortune style='color:yellow;'>" + fortune + "</fortune></p>"
+        fortune_paragraph = "<center>" + fortune_sentence + "<p></center>"
 
         lucky_number = getRandomNumbers()
-        number_sentence = "Your lucky number: " + str(lucky_number)
-        number_paragraph = "<center><p style='font-size:36px;'>" + number_sentence + "<p></center>"
+        number_sentence = "<p style='font-size:36px; color: red;'>Your lucky number: <lucky style='color:yellow;'>" + str(lucky_number) + "</lucky></p>"
+        number_paragraph = "<center>" + number_sentence + "</center>"
 
-        content = header + fortune_paragraph + number_paragraph
+        content = body + logo + header + fortune_paragraph + number_paragraph
 
         self.response.write(content)
 
